@@ -46,13 +46,10 @@ void setup()
   start(_buttonsArray, _DFPlayer);
 }
 
-const uint8_t GAMES_COUNT = 5;
 uint8_t gameCode = 0;
 
 void loop()
 {
-  randomSeed(analogRead(0));
-  //gameCode = random(GAMES_COUNT) + 1;
   gameCode = 1;
 
   switch (gameCode)
