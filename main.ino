@@ -5,6 +5,7 @@
 #include "components/ButtonsArray.h"
 #include "components/Start.c"
 #include "components/Game1.c"
+#include "components/Game2.c"
 
 // sound:
 SoftwareSerial _softwareSerial(13, 12); // RX, TX
@@ -46,11 +47,17 @@ void setup()
   start(_buttonsArray, _DFPlayer);
 }
 
+const uint8_t GAMES_COUNT = 2;
 uint8_t gameCode = 0;
 
 void loop()
 {
-  gameCode = 1;
+  //randomSeed(analogRead(0));
+  //gameCode = random(GAMES_COUNT) + 1; // prod
+  gameCode = 2; // dev
+
+  // alternatively:
+  gameCode = 0; // prod
 
   switch (gameCode)
   {
@@ -58,7 +65,10 @@ void loop()
     gameCode = _buttonsArray->waitForInput(1, 2, 0);
     break;
   case 1:
-    game1(_buttonsArray, _DFPlayer);
+    game1_songs(_buttonsArray, _DFPlayer);
+    break;
+  case 2:
+    game2_zoo(_buttonsArray, _DFPlayer); 
     break;
   default:
     break;

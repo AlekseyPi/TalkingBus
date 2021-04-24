@@ -1,17 +1,18 @@
 #include "Button.h"
 #include "ButtonsArray.h"
 
-void game1(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
+void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
+    //player->playFromMP3Folder(100); // TODO: play "площадь Исполнителей"
     buttonsArray->getButton(0)->setLED(true);
     delay(300);
     buttonsArray->getButton(0)->setLED(false);
 
     int8_t pressedIndex;
-    int8_t buttonSongIndex = -1;
-    int16_t currentFileNumber = -1; 
     Button* pressedButton = NULL;
     Button* previouslyPressedButton = NULL;
+    int8_t buttonSongIndex = -1;
+    int16_t currentFileNumber = -1; 
     
     while (true)
     {
