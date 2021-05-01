@@ -52,12 +52,11 @@ uint8_t gameCode = 0;
 
 void loop()
 {
-  //randomSeed(analogRead(0));
-  //gameCode = random(GAMES_COUNT) + 1; // prod
-  gameCode = 2; // dev
+  // DEBUG:
+  gameCode = 1;
+  // END DEBUG;
 
-  // alternatively:
-  gameCode = 0; // prod
+  // read gameCode from EEPROM 
 
   switch (gameCode)
   {
@@ -73,4 +72,6 @@ void loop()
   default:
     break;
   }
+  //gameCode++; 
+  //if (gameCode > GAMES_COUNT) gameCode = 1;
 }

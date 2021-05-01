@@ -3,16 +3,17 @@
 
 void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
-    //player->playFromMP3Folder(100); // TODO: play "площадь Исполнителей"
+    player->playFolder(10, 001); // "площадь Исполнителей"
     buttonsArray->getButton(0)->setLED(true);
     delay(300);
     buttonsArray->getButton(0)->setLED(false);
+    // play random song
 
     int8_t pressedIndex;
     Button* pressedButton = NULL;
     Button* previouslyPressedButton = NULL;
     int8_t buttonSongIndex = -1;
-    int16_t currentFileNumber = -1; 
+    int16_t currentFileNumber = -1; // 1..
     
     while (true)
     {
@@ -21,7 +22,7 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
         {
             if (currentFileNumber != -1 && !player->isPlaying())
             {
-                player->playFromMP3Folder(currentFileNumber);
+                player->playFolder(11, currentFileNumber);
                 delay(500);
             }
             continue;
@@ -47,6 +48,6 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
         }
         pressedButton->setLED(true);
         currentFileNumber = pressedIndex * 5 + buttonSongIndex + 1;
-        player->playFromMP3Folder(currentFileNumber);
+        player->playFolder(11, currentFileNumber);
     }
 }

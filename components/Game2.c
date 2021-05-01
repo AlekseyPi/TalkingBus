@@ -3,7 +3,7 @@
 
 void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
-    //player->playFromMP3Folder(100); // TODO: play "Зоопарк"
+    player->playFolder(20, 001); // "Зоопарк"
     buttonsArray->getButton(1)->setLED(true);
     delay(300);
     buttonsArray->getButton(1)->setLED(false);
