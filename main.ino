@@ -11,7 +11,6 @@
 SoftwareSerial _softwareSerial(13, 12); // RX, TX
 DFPlayerMini_Fast * _DFPlayer;
 
-
 // buttons:
 const uint8_t INPUT1 = 2; // blue push button 1
 const uint8_t OUTPUT1 = 3; // blue led 4
@@ -33,7 +32,7 @@ void setup()
   _softwareSerial.begin(9600);
   _DFPlayer = new DFPlayerMini_Fast();
   _DFPlayer->begin(_softwareSerial);
-  _DFPlayer->volume(20);
+  _DFPlayer->volume(5);
 
   _buttons = (Button*) malloc(sizeof(Button) * _buttonsCount);
   _buttons[0] = Button(1, INPUT1, OUTPUT1);

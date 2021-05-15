@@ -4,16 +4,21 @@
 void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
     player->playFolder(10, 001); // "площадь Исполнителей"
-    buttonsArray->getButton(0)->setLED(true);
-    delay(300);
-    buttonsArray->getButton(0)->setLED(false);
-    // play random song
+    delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
 
     int8_t pressedIndex;
     Button* pressedButton = NULL;
     Button* previouslyPressedButton = NULL;
-    int8_t buttonSongIndex = -1;
-    int16_t currentFileNumber = -1; // 1..
+    int8_t buttonSongIndex = -1; // 0..4; -1 means never played
+    int16_t currentFileNumber = -1; // 1..25
+    
+    // play random song
+    randomSeed(analogRead(0));
+    currentFileNumber = random(1, 25);
+    pressedIndex = (currentFileNumber - 1) / 5;
+    buttonSongIndex = (currentFileNumber - 1) % 5;
+    pressedButton = buttonsArray->getButton(pressedIndex);
+    buttonsArray->getButton(pressedIndex)->setLED(true);
     
     while (true)
     {
