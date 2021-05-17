@@ -3,6 +3,9 @@
 
 void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
+    player->playFolder(01, 002); // "bus stop"
+    delay(3500);
+    
     player->playFolder(10, 001); // "площадь Исполнителей"
     delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
 
@@ -10,7 +13,7 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
     Button* pressedButton = NULL;
     Button* previouslyPressedButton = NULL;
     int8_t buttonSongIndex = -1; // 0..4; -1 means never played
-    int16_t currentFileNumber = -1; // 1..25
+    int16_t currentFileNumber = -1; // 1..25; -1 means never played
     
     // play random song
     randomSeed(analogRead(0));
@@ -23,6 +26,7 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
     while (true)
     {
         pressedIndex = buttonsArray->waitForSingleButton(millis() + 1000);
+        // TODO: return after 10 minutes?
         if (pressedIndex == -1)
         {
             if (currentFileNumber != -1 && !player->isPlaying())

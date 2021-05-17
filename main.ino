@@ -32,7 +32,7 @@ void setup()
   _softwareSerial.begin(9600);
   _DFPlayer = new DFPlayerMini_Fast();
   _DFPlayer->begin(_softwareSerial);
-  _DFPlayer->volume(5);
+  _DFPlayer->volume(24);
 
   _buttons = (Button*) malloc(sizeof(Button) * _buttonsCount);
   _buttons[0] = Button(1, INPUT1, OUTPUT1);
@@ -53,7 +53,7 @@ uint8_t gameCode = 0;
 void loop()
 {
   // DEBUG:
-  gameCode = 1;
+  gameCode = 2;
   // END DEBUG;
 
   // read gameCode from EEPROM 
@@ -74,4 +74,5 @@ void loop()
   }
   //gameCode++; 
   //if (gameCode > GAMES_COUNT) gameCode = 1;
+  //store gameCode into EEPROM 
 }

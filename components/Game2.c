@@ -3,11 +3,14 @@
 
 void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
+    player->playFolder(01, 002); // "bus stop"
+    delay(3500);
+
     player->playFolder(20, 001); // "Зоопарк"
-    buttonsArray->getButton(1)->setLED(true);
-    delay(300);
-    buttonsArray->getButton(1)->setLED(false);
+    delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
+    
     int8_t pressedIndex;
+    int8_t fileIndex = 1;
     Button* pressedButton = NULL;
 
     while (true)
@@ -17,20 +20,19 @@ void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
         {
             continue;
         }
-        pressedButton = buttonsArray->getButton(pressedIndex);
-        pressedButton->setLED(true);
-        delay(500);
-        pressedButton->setLED(false);
-
         if (pressedIndex == 4 && buttonsArray->getButton(pressedIndex)->wasLongPressed())
         {
             return;
         }
+        pressedButton = buttonsArray->getButton(pressedIndex);
+        
+        pressedButton->setLED(true);
+        
+        player->playFolder(21, fileIndex);
+        delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
+        fileIndex++;
+        if (fileIndex > 22) fileIndex = 1;
 
-        if (pressedIndex == 0)
-        {
-            // play random from 0 to N 
-            // player->playFromMP3Folder();
-        }
+        pressedButton->setLED(false);
     }
 }
