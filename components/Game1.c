@@ -1,5 +1,8 @@
 #include "Button.h"
 #include "ButtonsArray.h"
+#include <EEPROM.h>
+
+const uint8_t GAME1_STORAGE = 1;
 
 void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
@@ -12,34 +15,47 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
     int8_t pressedIndex;
     Button* pressedButton = NULL;
     Button* previouslyPressedButton = NULL;
-    int8_t buttonSongIndex = -1; // 0..4; -1 means never played
-    int16_t currentFileNumber = -1; // 1..25; -1 means never played
+    uint8_t buttonSongIndex; // 0..4
+    uint8_t playingSongNumber; // 1..25
     
-    // play random song
-    randomSeed(analogRead(0));
-    currentFileNumber = random(1, 25);
-    pressedIndex = (currentFileNumber - 1) / 5;
-    buttonSongIndex = (currentFileNumber - 1) % 5;
+    // play one of songs
+    playingSongNumber = EEPROM.read(GAME1_STORAGE);
+    playingSongNumber = playingSongNumber == 255 ? 1 : playingSongNumber;
+    playingSongNumber++;
+    if (playingSongNumber > 25) playingSongNumber = 1; 
+    EEPROM.write(GAME1_STORAGE, playingSongNumber);
+
+    pressedIndex = (playingSongNumber - 1) / 5;
+    buttonSongIndex = (playingSongNumber - 1) % 5;
     pressedButton = buttonsArray->getButton(pressedIndex);
     buttonsArray->getButton(pressedIndex)->setLED(true);
+    uint32_t gameStartTime = millis();
     
     while (true)
     {
         pressedIndex = buttonsArray->waitForSingleButton(millis() + 1000);
-        // TODO: return after 10 minutes?
+        
         if (pressedIndex == -1)
         {
-            if (currentFileNumber != -1 && !player->isPlaying())
+            if (player->isPlaying())
             {
-                player->playFolder(11, currentFileNumber);
-                delay(500);
+                continue;
+            }
+            if (millis() - gameStartTime > 60000) return;
+
+            if (playingSongNumber != 0)
+            {
+                player->playFolder(11, playingSongNumber);
+                // delay(300);
             }
             continue;
         }
+        if (millis() - gameStartTime > 60000) return;
+
         if (buttonsArray->getButton(pressedIndex)->wasLongPressed())
         {
             player->stop();
-            currentFileNumber = -1;
+            playingSongNumber = 0;
             continue;
         }
 
@@ -56,7 +72,7 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
             }
         }
         pressedButton->setLED(true);
-        currentFileNumber = pressedIndex * 5 + buttonSongIndex + 1;
-        player->playFolder(11, currentFileNumber);
+        playingSongNumber = pressedIndex * 5 + buttonSongIndex + 1;
+        player->playFolder(11, playingSongNumber);
     }
 }

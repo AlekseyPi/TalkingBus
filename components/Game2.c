@@ -1,6 +1,8 @@
 #include "Button.h"
 #include "ButtonsArray.h"
 
+const uint8_t GAME2_STORAGE = 2;
+
 void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
     player->playFolder(01, 002); // "bus stop"
@@ -10,12 +12,20 @@ void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
     delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
     
     int8_t pressedIndex;
-    int8_t fileIndex = 1;
     Button* pressedButton = NULL;
+    uint32_t gameStartTime = millis();
+    uint8_t animalNumber = 1; // 1..22
+    
+    animalNumber = EEPROM.read(GAME2_STORAGE);
+    animalNumber = animalNumber == 255 ? 1 : animalNumber;
 
     while (true)
     {
         pressedIndex = buttonsArray->waitForSingleButton(millis() + 1000);
+        
+        if (millis() - gameStartTime > 60000) 
+            return;
+
         if (pressedIndex == -1)
         {
             continue;
@@ -28,10 +38,11 @@ void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
         
         pressedButton->setLED(true);
         
-        player->playFolder(21, fileIndex);
+        player->playFolder(21, animalNumber);
         delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
-        fileIndex++;
-        if (fileIndex > 22) fileIndex = 1;
+        animalNumber++;
+        if (animalNumber > 22) animalNumber = 1;
+        EEPROM.write(GAME2_STORAGE, animalNumber);
 
         pressedButton->setLED(false);
     }

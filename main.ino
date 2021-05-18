@@ -6,6 +6,7 @@
 #include "components/Start.c"
 #include "components/Game1.c"
 #include "components/Game2.c"
+#include <EEPROM.h>
 
 // sound:
 SoftwareSerial _softwareSerial(13, 12); // RX, TX
@@ -32,7 +33,7 @@ void setup()
   _softwareSerial.begin(9600);
   _DFPlayer = new DFPlayerMini_Fast();
   _DFPlayer->begin(_softwareSerial);
-  _DFPlayer->volume(24);
+  _DFPlayer->volume(5);
 
   _buttons = (Button*) malloc(sizeof(Button) * _buttonsCount);
   _buttons[0] = Button(1, INPUT1, OUTPUT1);
@@ -43,25 +44,27 @@ void setup()
   _buttonsArray = new ButtonsArray(_buttons, _buttonsCount);
 
   _buttonsArray->initAll();
-
-  start(_buttonsArray, _DFPlayer);
 }
 
+const uint8_t MAIN_STORAGE = 0;
 const uint8_t GAMES_COUNT = 2;
 uint8_t gameCode = 0;
 
 void loop()
 {
   // DEBUG:
-  gameCode = 2;
+  // gameCode = 2;
   // END DEBUG;
 
-  // read gameCode from EEPROM 
+  start(_buttonsArray, _DFPlayer);
+
+  gameCode = EEPROM.read(MAIN_STORAGE);
+  gameCode = gameCode == 255 ? 1 : gameCode;
 
   switch (gameCode)
   {
   case 0:
-    gameCode = _buttonsArray->waitForInput(1, 2, 0);
+    gameCode = _buttonsArray->waitForInput(1, 2, 0); // game selection menu
     break;
   case 1:
     game1_songs(_buttonsArray, _DFPlayer);
@@ -72,7 +75,8 @@ void loop()
   default:
     break;
   }
-  //gameCode++; 
-  //if (gameCode > GAMES_COUNT) gameCode = 1;
-  //store gameCode into EEPROM 
+
+  gameCode++; 
+  if (gameCode > GAMES_COUNT) gameCode = 1;
+  EEPROM.write(MAIN_STORAGE, gameCode);
 }
