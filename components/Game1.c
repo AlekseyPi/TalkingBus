@@ -41,16 +41,15 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
             {
                 continue;
             }
-            if (millis() - gameStartTime > 60000) return;
+            if (millis() - gameStartTime > 300000) return;
 
             if (playingSongNumber != 0)
             {
                 player->playFolder(11, playingSongNumber);
-                // delay(300);
             }
             continue;
         }
-        if (millis() - gameStartTime > 60000) return;
+        if (millis() - gameStartTime > 300000) return;
 
         if (buttonsArray->getButton(pressedIndex)->wasLongPressed())
         {

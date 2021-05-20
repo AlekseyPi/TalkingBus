@@ -23,16 +23,12 @@ void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
     {
         pressedIndex = buttonsArray->waitForSingleButton(millis() + 1000);
         
-        if (millis() - gameStartTime > 60000) 
+        if (millis() - gameStartTime > 300000) 
             return;
 
         if (pressedIndex == -1)
         {
             continue;
-        }
-        if (pressedIndex == 4 && buttonsArray->getButton(pressedIndex)->wasLongPressed())
-        {
-            return;
         }
         pressedButton = buttonsArray->getButton(pressedIndex);
         
@@ -40,6 +36,7 @@ void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
         
         player->playFolder(21, animalNumber);
         delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
+        
         animalNumber++;
         if (animalNumber > 22) animalNumber = 1;
         EEPROM.write(GAME2_STORAGE, animalNumber);

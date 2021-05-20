@@ -33,7 +33,7 @@ void setup()
   _softwareSerial.begin(9600);
   _DFPlayer = new DFPlayerMini_Fast();
   _DFPlayer->begin(_softwareSerial);
-  _DFPlayer->volume(5);
+  _DFPlayer->volume(12);
 
   _buttons = (Button*) malloc(sizeof(Button) * _buttonsCount);
   _buttons[0] = Button(1, INPUT1, OUTPUT1);
