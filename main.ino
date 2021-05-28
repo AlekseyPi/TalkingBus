@@ -6,6 +6,7 @@
 #include "components/Start.c"
 #include "components/Game1.c"
 #include "components/Game2.c"
+#include "components/Game4.c"
 #include <EEPROM.h>
 
 // sound:
@@ -33,7 +34,7 @@ void setup()
   _softwareSerial.begin(9600);
   _DFPlayer = new DFPlayerMini_Fast();
   _DFPlayer->begin(_softwareSerial);
-  _DFPlayer->volume(12);
+  _DFPlayer->volume(15);
 
   _buttons = (Button*) malloc(sizeof(Button) * _buttonsCount);
   _buttons[0] = Button(1, INPUT1, OUTPUT1);
@@ -53,7 +54,7 @@ uint8_t gameCode = 0;
 void loop()
 {
   // DEBUG:
-  // gameCode = 2;
+  // gameCode = 4;
   // END DEBUG;
 
   start(_buttonsArray, _DFPlayer);
@@ -71,6 +72,11 @@ void loop()
     break;
   case 2:
     game2_zoo(_buttonsArray, _DFPlayer); 
+    break;
+  case 3:
+    break;
+  case 4:
+    game4_trafficlight(_buttonsArray, _DFPlayer); 
     break;
   default:
     break;
