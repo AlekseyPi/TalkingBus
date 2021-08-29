@@ -34,6 +34,10 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
     while (true)
     {
         pressedIndex = buttonsArray->waitForSingleButton(millis() + 1000);
+        if (pressedIndex == 4 && buttonsArray->getButton(pressedIndex)->wasLongPressed())
+        {
+            return;
+        }
         
         if (pressedIndex == -1)
         {
@@ -49,6 +53,7 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
             }
             continue;
         }
+
         if (millis() - gameStartTime > 300000) return;
 
         if (buttonsArray->getButton(pressedIndex)->wasLongPressed())

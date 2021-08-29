@@ -10,16 +10,21 @@ void game4_trafficlight(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
     delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
     
     uint32_t gameStartTime = millis();
-    int16_t initialVolume = 15;
+    int16_t initialVolume = 25;
+    int8_t pressedIndex;
 
     while (true)
     {
         if (millis() - gameStartTime > 300000) 
             return;
-
         
         buttonsArray->getButton(4)->setLED(true);
-        delay(10000);
+        pressedIndex = buttonsArray->waitForSingleButton(millis() + 10000);
+        if (pressedIndex == 4 && buttonsArray->getButton(pressedIndex)->wasLongPressed())
+        {
+            player->volume(initialVolume);
+            return;
+        }
 
         buttonsArray->getButton(3)->setLED(true);
         delay(2000);

@@ -22,6 +22,10 @@ void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
     while (true)
     {
         pressedIndex = buttonsArray->waitForSingleButton(millis() + 1000);
+        if (pressedIndex == 4 && buttonsArray->getButton(pressedIndex)->wasLongPressed())
+        {
+            return;
+        }
         
         if (millis() - gameStartTime > 300000) 
             return;
