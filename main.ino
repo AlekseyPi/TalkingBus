@@ -34,7 +34,7 @@ void setup()
   _softwareSerial.begin(9600);
   _DFPlayer = new DFPlayerMini_Fast();
   _DFPlayer->begin(_softwareSerial);
-  _DFPlayer->volume(25);
+  _DFPlayer->volume(22);
 
   _buttons = (Button*) malloc(sizeof(Button) * _buttonsCount);
   _buttons[0] = Button(1, INPUT1, OUTPUT1);
@@ -48,7 +48,7 @@ void setup()
 }
 
 const uint8_t MAIN_STORAGE = 0;
-const uint8_t GAMES_COUNT = 4;
+const uint8_t GAMES_COUNT = 3;
 uint8_t gameCode = 0;
 
 void loop()
@@ -74,9 +74,9 @@ void loop()
     game2_zoo(_buttonsArray, _DFPlayer); 
     break;
   case 3:
+    game4_trafficlight(_buttonsArray, _DFPlayer); 
     break;
   case 4:
-    game4_trafficlight(_buttonsArray, _DFPlayer); 
     break;
   default:
     break;
