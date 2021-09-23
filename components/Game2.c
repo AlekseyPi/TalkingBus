@@ -27,9 +27,6 @@ void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
             return;
         }
         
-        if (millis() - gameStartTime > 300000) 
-            return;
-
         if (pressedIndex == -1)
         {
             continue;

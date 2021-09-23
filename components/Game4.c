@@ -15,9 +15,6 @@ void game4_trafficlight(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 
     while (true)
     {
-        if (millis() - gameStartTime > 300000) 
-            return;
-        
         buttonsArray->getButton(4)->setLED(true);
         pressedIndex = buttonsArray->waitForSingleButton(millis() + 10000);
         if (pressedIndex == 4 && buttonsArray->getButton(pressedIndex)->wasLongPressed())

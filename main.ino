@@ -53,14 +53,11 @@ uint8_t gameCode = 0;
 
 void loop()
 {
-  // DEBUG:
-  // gameCode = 4;
-  // END DEBUG;
-
   start(_buttonsArray, _DFPlayer);
 
-  gameCode = EEPROM.read(MAIN_STORAGE);
-  gameCode = gameCode == 255 ? 1 : gameCode;
+  // gameCode = EEPROM.read(MAIN_STORAGE);
+  // gameCode = gameCode == 255 ? 1 : gameCode;
+  gameCode = 1;
 
   switch (gameCode)
   {

@@ -45,7 +45,6 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
             {
                 continue;
             }
-            if (millis() - gameStartTime > 300000) return;
 
             if (playingSongNumber != 0)
             {
