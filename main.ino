@@ -34,7 +34,7 @@ void setup()
   _softwareSerial.begin(9600);
   _DFPlayer = new DFPlayerMini_Fast();
   _DFPlayer->begin(_softwareSerial);
-  _DFPlayer->volume(22);
+  _DFPlayer->volume(18);
 
   _buttons = (Button*) malloc(sizeof(Button) * _buttonsCount);
   _buttons[0] = Button(1, INPUT1, OUTPUT1);
@@ -49,7 +49,7 @@ void setup()
 
 const uint8_t MAIN_STORAGE = 0;
 const uint8_t GAMES_COUNT = 3;
-uint8_t gameCode = 0;
+uint8_t gameCode = 1;
 
 void loop()
 {
@@ -57,7 +57,6 @@ void loop()
 
   // gameCode = EEPROM.read(MAIN_STORAGE);
   // gameCode = gameCode == 255 ? 1 : gameCode;
-  gameCode = 1;
 
   switch (gameCode)
   {

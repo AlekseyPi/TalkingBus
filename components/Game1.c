@@ -7,7 +7,7 @@ const uint8_t GAME1_STORAGE = 1;
 void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
     player->playFolder(01, 002); // "bus stop"
-    delay(3500);
+    delay(700);
     
     player->playFolder(10, 001); // "площадь Исполнителей"
     delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
@@ -52,8 +52,6 @@ void game1_songs(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
             }
             continue;
         }
-
-        if (millis() - gameStartTime > 300000) return;
 
         if (buttonsArray->getButton(pressedIndex)->wasLongPressed())
         {

@@ -4,13 +4,13 @@
 void game4_trafficlight(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
     player->playFolder(01, 002); // "bus stop"
-    delay(3500);
+    delay(700);
 
     player->playFolder(40, 001); // "светофор"
     delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
     
     uint32_t gameStartTime = millis();
-    int16_t initialVolume = 25;
+    int16_t initialVolume = 18;
     int8_t pressedIndex;
 
     while (true)

@@ -6,7 +6,7 @@ const uint8_t GAME2_STORAGE = 2;
 void game2_zoo(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
 {
     player->playFolder(01, 002); // "bus stop"
-    delay(3500);
+    delay(700);
 
     player->playFolder(20, 001); // "Зоопарк"
     delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
