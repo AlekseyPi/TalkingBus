@@ -1,3 +1,4 @@
+#include "Const.h"
 #include "Button.h"
 #include "ButtonsArray.h"
 #include <EEPROM.h>
@@ -20,6 +21,7 @@ void game1_songs(ButtonsArray *buttonsArray, DFPlayerMini_Fast *player)
     uint8_t buttonSongIndex;   // 0..4
     uint8_t playingSongNumber; // 1..25
     uint16_t volumePreset = 0;
+    bool isNightMode = false;
 
     // play one of songs
     playingSongNumber = EEPROM.read(GAME1_STORAGE);
@@ -61,7 +63,16 @@ void game1_songs(ButtonsArray *buttonsArray, DFPlayerMini_Fast *player)
         {
             volumePreset++;
             if (volumePreset % 3 == 1)
+            {
+                isNightMode = true;
                 player->volume(INITIAL_VOLUME - 8);
+                for (int i = 0; i < BUTTONS_COUNT; i++)
+                {
+                    buttonsArray->getButton(i)->setLED(false);
+                }
+                continue;
+            }
+            isNightMode = false;
             if (volumePreset % 3 == 2)
                 player->volume(INITIAL_VOLUME + 8);
             if (volumePreset % 3 == 0)
@@ -82,7 +93,10 @@ void game1_songs(ButtonsArray *buttonsArray, DFPlayerMini_Fast *player)
                 buttonSongIndex = 0;
             }
         }
-        pressedButton->setLED(true);
+        if (!isNightMode)
+        {
+            pressedButton->setLED(true);
+        }
         playingSongNumber = pressedIndex * 5 + buttonSongIndex + 1;
         player->playFolder(11, playingSongNumber);
     }
