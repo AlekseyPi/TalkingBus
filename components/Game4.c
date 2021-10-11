@@ -1,16 +1,18 @@
+#include "Const.h"
 #include "Button.h"
 #include "ButtonsArray.h"
 
-void game4_trafficlight(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
+void game4_trafficlight(ButtonsArray *buttonsArray, DFPlayerMini_Fast *player)
 {
     player->playFolder(01, 002); // "bus stop"
     delay(700);
 
     player->playFolder(40, 001); // "светофор"
-    delay(300); while (player->isPlaying()) delay(100); // wait until the song is played 
-    
+    delay(300);
+    while (player->isPlaying())
+        delay(100); // wait until the song is played
+
     uint32_t gameStartTime = millis();
-    int16_t initialVolume = 18;
     int8_t pressedIndex;
 
     while (true)
@@ -19,7 +21,7 @@ void game4_trafficlight(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
         pressedIndex = buttonsArray->waitForSingleButton(millis() + 10000);
         if (pressedIndex == 4 && buttonsArray->getButton(pressedIndex)->wasLongPressed())
         {
-            player->volume(initialVolume);
+            player->volume(INITIAL_VOLUME);
             return;
         }
 
@@ -29,20 +31,20 @@ void game4_trafficlight(ButtonsArray* buttonsArray, DFPlayerMini_Fast * player)
         buttonsArray->getButton(4)->setLED(false);
         buttonsArray->getButton(3)->setLED(false);
         buttonsArray->getButton(2)->setLED(true);
-        player->volume(initialVolume);
-        player->playFolder(40, 002); 
+        player->volume(INITIAL_VOLUME);
+        player->playFolder(40, 002);
         delay(10000);
 
         buttonsArray->getButton(3)->setLED(true);
         buttonsArray->getButton(2)->setLED(false);
-        for (int i = initialVolume; i > 0; i--)
+        for (int i = INITIAL_VOLUME; i > 0; i--)
         {
             player->volume(i);
-            delay(2000/initialVolume);
+            delay(2000 / INITIAL_VOLUME);
         }
-        
+
         buttonsArray->getButton(3)->setLED(false);
         player->stop();
-        player->volume(initialVolume);
+        player->volume(INITIAL_VOLUME);
     }
 }

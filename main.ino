@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "SoftwareSerial.h"
 #include "DFPlayerMini_Fast.h"
+#include "components/Const.h"
 #include "components/Button.h"
 #include "components/ButtonsArray.h"
 #include "components/Start.c"
@@ -11,32 +12,32 @@
 
 // sound:
 SoftwareSerial _softwareSerial(13, 12); // RX, TX
-DFPlayerMini_Fast * _DFPlayer;
+DFPlayerMini_Fast *_DFPlayer;
 
 // buttons:
-const uint8_t INPUT1 = 2; // blue push button 1
-const uint8_t OUTPUT1 = 3; // blue led 4
-const uint8_t INPUT2 = 4; // white push button 2
-const uint8_t OUTPUT2 = 5; // white led 4
-const uint8_t INPUT3 = 6; // green push button 3
-const uint8_t OUTPUT3 = 7; // green led 4
-const uint8_t INPUT4 = 8; // yellow push button 4
-const uint8_t OUTPUT4 = 9; // yellow led 4
-const uint8_t INPUT5 = 10; // red push button 5
+const uint8_t INPUT1 = 2;   // blue push button 1
+const uint8_t OUTPUT1 = 3;  // blue led 4
+const uint8_t INPUT2 = 4;   // white push button 2
+const uint8_t OUTPUT2 = 5;  // white led 4
+const uint8_t INPUT3 = 6;   // green push button 3
+const uint8_t OUTPUT3 = 7;  // green led 4
+const uint8_t INPUT4 = 8;   // yellow push button 4
+const uint8_t OUTPUT4 = 9;  // yellow led 4
+const uint8_t INPUT5 = 10;  // red push button 5
 const uint8_t OUTPUT5 = 11; // red led 5
 
 const uint8_t _buttonsCount = 5;
-Button * _buttons;
-ButtonsArray * _buttonsArray;
+Button *_buttons;
+ButtonsArray *_buttonsArray;
 
 void setup()
 {
   _softwareSerial.begin(9600);
   _DFPlayer = new DFPlayerMini_Fast();
   _DFPlayer->begin(_softwareSerial);
-  _DFPlayer->volume(18);
+  _DFPlayer->volume(INITIAL_VOLUME);
 
-  _buttons = (Button*) malloc(sizeof(Button) * _buttonsCount);
+  _buttons = (Button *)malloc(sizeof(Button) * _buttonsCount);
   _buttons[0] = Button(1, INPUT1, OUTPUT1);
   _buttons[1] = Button(2, INPUT2, OUTPUT2);
   _buttons[2] = Button(3, INPUT3, OUTPUT3);
@@ -67,10 +68,10 @@ void loop()
     game1_songs(_buttonsArray, _DFPlayer);
     break;
   case 2:
-    game2_zoo(_buttonsArray, _DFPlayer); 
+    game2_zoo(_buttonsArray, _DFPlayer);
     break;
   case 3:
-    game4_trafficlight(_buttonsArray, _DFPlayer); 
+    game4_trafficlight(_buttonsArray, _DFPlayer);
     break;
   case 4:
     break;
@@ -78,7 +79,8 @@ void loop()
     break;
   }
 
-  gameCode++; 
-  if (gameCode > GAMES_COUNT) gameCode = 1;
+  gameCode++;
+  if (gameCode > GAMES_COUNT)
+    gameCode = 1;
   EEPROM.write(MAIN_STORAGE, gameCode);
 }
